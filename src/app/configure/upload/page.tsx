@@ -1,14 +1,20 @@
+/* eslint-disable jsx-a11y/alt-text */
 "use client";
 
+import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { Divide, Image, Loader2, MousePointerSquareDashed } from "lucide-react";
+import { useState, useTransition } from "react";
 import Dropzone, { FileRejection } from "react-dropzone";
 const Page = () => {
   const [isDragOver, setIsDragOver] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
   const onDropRejected = () => {};
   const onDropAccepted = () => {
     console.log("accepted");
   };
+  const isUploading = false;
+  const [isPending, startTransition] = useTransition();
   return (
     <div
       className={cn(
@@ -34,7 +40,30 @@ const Page = () => {
               {...getRootProps()}
             >
               <input {...getInputProps()} />
-              asss
+              {isDragOver ? (
+                <MousePointerSquareDashed className="mb-2 h-6 w-6 text-zinc-500" />
+              ) : isUploading || isPending ? (
+                <Loader2 className="mb-2 h-6 w-6 animate-spin text-zinc-500" />
+              ) : (
+                <Image className="mb-2 h-6 w-6 text-zinc-500" />
+              )}
+              <div className="mb-2 flex flex-col justify-center text-sm text-zinc-700">
+                {isUploading ? (
+                  <div className="flex flex-col items-center">
+                    <p>Uploading...</p>
+                    <Progress
+                      value={uploadProgress}
+                      className="mt-2 h-2 w-40 bg-gray-300"
+                    />
+                  </div>
+                ) : isPending ? (
+                  <div></div>
+                ) : isDragOver ? (
+                  <span></span>
+                ) : (
+                  <span></span>
+                )}
+              </div>
             </div>
           )}
         </Dropzone>
