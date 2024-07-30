@@ -20,26 +20,33 @@ const STEPS = [
     url: "/preview",
   },
 ];
+
 const Steps = () => {
   const pathname = usePathname();
+
   return (
     <ol className="rounded-md bg-white lg:flex lg:rounded-none lg:border-l lg:border-r lg:border-gray-200">
       {STEPS.map((step, i) => {
         const isCurrent = pathname.endsWith(step.url);
-        const isCompleted = STEPS.slice(i + 1).some((step) => {
-          pathname.endsWith(step.url);
-        });
+        const isCompleted = STEPS.slice(i + 1).some((step) =>
+          pathname.endsWith(step.url),
+        );
         const imgPath = `/snake-${i + 1}.png`;
+
         return (
           <li key={step.name} className="relative overflow-hidden lg:flex-1">
             <div>
               <span
                 className={cn(
-                  "absolute left-0 top-0 h-full w-1 bg-zinc-100 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full",
-                  { "bg-zinc-700": isCurrent, "bg-primary": isCompleted },
+                  "absolute left-0 top-0 h-full w-1 bg-zinc-400 lg:bottom-0 lg:top-auto lg:h-1 lg:w-full",
+                  {
+                    "bg-zinc-700": isCurrent,
+                    "bg-primary": isCompleted,
+                  },
                 )}
                 aria-hidden="true"
               />
+
               <span
                 className={cn(
                   i !== 0 ? "lg:pl-9" : "",
@@ -47,19 +54,18 @@ const Steps = () => {
                 )}
               >
                 <span className="flex-shrink-0">
-                  {" "}
                   <img
                     src={imgPath}
-                    alt=""
                     className={cn(
                       "flex h-20 w-20 items-center justify-center object-contain",
                       {
-                        "border-zinc-700": isCurrent,
                         "border-none": isCompleted,
+                        "border-zinc-700": isCurrent,
                       },
                     )}
                   />
                 </span>
+
                 <span className="ml-4 mt-0.5 flex h-full min-w-0 flex-col justify-center">
                   <span
                     className={cn("text-sm font-semibold text-zinc-700", {
@@ -74,7 +80,8 @@ const Steps = () => {
                   </span>
                 </span>
               </span>
-              {/*separator */}
+
+              {/* separator */}
               {i !== 0 ? (
                 <div className="absolute inset-0 hidden w-3 lg:block">
                   <svg
@@ -98,4 +105,5 @@ const Steps = () => {
     </ol>
   );
 };
+
 export default Steps;
